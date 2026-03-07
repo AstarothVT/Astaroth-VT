@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ASTAROTH | Multiverse Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('https://i.pinimg.com/736x/e7/e3/31/e7e331614a923ca25cff61b444c514c9.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Capa oscura de fondo */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1;
+        }
+
+        /* --- CONTENEDOR DE NIEVE ROJA --- */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2; /* Por encima del fondo, bajo el contenido */
+        }
+
+        .snowflake {
+            position: absolute;
+            background-color: #ff0000;
+            border-radius: 50%;
+            opacity: 0.8;
+            top: -10px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(50px); opacity: 0; }
+        }
+
+        .main-hub {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 480px;
+        }
+
+        /* --- CONFIGURACIÓN DEL LOGO --- */
+        .logo-neon-circle {
+            width: 175px;
+            height: 175px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            border: 4px solid #ff0000;
+            box-shadow: 0 0 35px #ff0000, inset 0 0 25px #ff0000;
+            /* SE USA EL NOMBRE EXACTO DE TU CARPETA */
+            background-image: url('asta1.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: black;
+        }
+
+        .title-asta {
+            font-size: 52px;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .subtitle-jp {
+            font-size: 16px;
+            color: #ff0000;
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+        }
+
+        .social-box {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 35px;
+        }
+
+        .circle-link {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+            background: #000;
+        }
+
+        .kick-link { border: 3px solid #53fc18; box-shadow: 0 0 20px #53fc18; }
+        .tiktok-link { border: 3px solid #ffffff; box-shadow: 0 0 20px #ffffff; }
+        .circle-link img { width: 35px; height: 35px; border-radius: 50%; }
+
+        .player-recta {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-left: 6px solid #ff0000;
+            padding: 12px 20px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+
+        .btn-power {
+            background: transparent;
+            border: 2px solid #ff0000;
+            color: #ff0000;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .btn-power.active { background: #ff0000; color: #000; box-shadow: 0 0 20px #ff0000; }
+
+        .info-text { text-align: left; }
+        .track-title { font-size: 13px; font-weight: bold; color: #fff; display: block; }
+        .track-status { font-size: 10px; color: #ff0000; text-transform: uppercase; }
+
+        .btn-discord-neon {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 30px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            border: 2px solid #5865F2;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: parpadeoNeon 2.5s infinite;
+            transition: 0.3s;
+        }
+
+        @keyframes parpadeoNeon {
+            0%, 100% { box-shadow: 0 0 5px #5865F2; border-color: #5865F2; }
+            50% { box-shadow: 0 0 25px #5865F2, inset 0 0 10px #5865F2; border-color: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+    <div id="snow-container"></div>
+
+    <div class="main-hub">
+        <div class="logo-neon-circle"></div>
+        <div class="title-asta">ASTAROTH</div>
+        <div class="subtitle-jp">マルチバース MV</div>
+
+        <div class="social-box">
+            <a href="https://kick.com/astaroth-vt" target="_blank" class="circle-link kick-link">
+                <img src="https://i.pinimg.com/1200x/f6/4f/56/f64f5611aabc03a17fa0a1ddfc7d0490.jpg" alt="Kick">
+            </a>
+            <a href="https://www.tiktok.com/@astaroth_vt" target="_blank" class="circle-link tiktok-link">
+                <img src="https://img.freepik.com/vector-premium/logotipo-tik-tok_578229-290.jpg" alt="TikTok">
+            </a>
+        </div>
+
+        <div class="player-recta">
+            <button class="btn-power" id="powerBtn" onclick="alternarMusica()">
+                <i class="fas fa-power-off"></i>
+            </button>
+            <div class="info-text">
+               <span class="track-title">AKUMA NO ODORI | 悪魔の踊り</span>
+                <span class="track-status" id="status">SISTEMA: STANDBY</span>
+            </div>
+        </div>
+
+        <a href="https://discord.gg/hrQwzuPWMX" target="_blank" class="btn-discord-neon">
+            <i class="fab fa-discord"></i> Únete al servidor de Discord
+        </a>
+    </div>
+
+    <audio id="musica" loop>
+        <source src="ZENSHIRI-MUSICA_1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // GENERADOR DE NIEVE MASIVA
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const particleCount = 150; // Mucha más nieve
+
+            for (let i = 0; i < particleCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                
+                const size = Math.random() * 5 + 2 + 'px';
+                const left = Math.random() * 100 + '%';
+                const duration = Math.random() * 3 + 4 + 's';
+                const delay = Math.random() * 5 + 's';
+                
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = left;
+                flake.style.animationDuration = duration;
+                flake.style.animationDelay = delay;
+                
+                container.appendChild(flake);
+            }
+        }
+
+        createSnow();
+
+        // LÓGICA DE MÚSICA
+        var musica = document.getElementById('musica');
+        var powerBtn = document.getElementById('powerBtn');
+        var statusText = document.getElementById('status');
+
+        function alternarMusica() {
+            if (musica.paused) {
+                musica.play().then(() => {
+                    powerBtn.classList.add('active');
+                    statusText.innerHTML = "SISTEMA: REPRODUCIENDO_ON";
+                    statusText.style.color = "#00ff00";
+                }).catch(e => {
+                    statusText.innerHTML = "ERROR: VERIFICA EL AUDIO";
+                });
+            } else {
+                musica.pause();
+                powerBtn.classList.remove('active');
+                statusText.innerHTML = "SISTEMA: STANDBY";
+                statusText.style.color = "#ff0000";
+            }
+        }
+    </script>
+</body>
+</html>
