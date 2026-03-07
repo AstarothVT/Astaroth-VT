@@ -17,22 +17,52 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            background-color: #000;
         }
 
+        /* Capa oscura de fondo */
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             z-index: 1;
+        }
+
+        /* --- CONTENEDOR DE NIEVE ROJA --- */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2; /* Por encima del fondo, bajo el contenido */
+        }
+
+        .snowflake {
+            position: absolute;
+            background-color: #ff0000;
+            border-radius: 50%;
+            opacity: 0.8;
+            top: -10px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(50px); opacity: 0; }
         }
 
         .main-hub {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             text-align: center;
             width: 480px;
         }
 
+        /* --- CONFIGURACIÓN DEL LOGO --- */
         .logo-neon-circle {
             width: 175px;
             height: 175px;
@@ -40,7 +70,8 @@
             border-radius: 50%;
             border: 4px solid #ff0000;
             box-shadow: 0 0 35px #ff0000, inset 0 0 25px #ff0000;
-            background-image: url('asta1.png');
+            /* SE USA EL NOMBRE EXACTO DE TU CARPETA */
+            background-image: url('asta1.png'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -141,17 +172,12 @@
             0%, 100% { box-shadow: 0 0 5px #5865F2; border-color: #5865F2; }
             50% { box-shadow: 0 0 25px #5865F2, inset 0 0 10px #5865F2; border-color: #fff; }
         }
-
-        .btn-discord-neon:hover {
-            background: #5865F2;
-            box-shadow: 0 0 40px #5865F2;
-        }
-
     </style>
 </head>
 <body>
 
     <div class="overlay"></div>
+    <div id="snow-container"></div>
 
     <div class="main-hub">
         <div class="logo-neon-circle"></div>
@@ -175,10 +201,7 @@
                <span class="track-title">AKUMA NO ODORI | 悪魔の踊り</span>
                 <span class="track-status" id="status">SISTEMA: STANDBY</span>
             </div>
-
         </div>
-
-
 
         <a href="https://discord.gg/hrQwzuPWMX" target="_blank" class="btn-discord-neon">
             <i class="fab fa-discord"></i> Únete al servidor de Discord
@@ -190,12 +213,36 @@
     </audio>
 
     <script>
+        // GENERADOR DE NIEVE MASIVA
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const particleCount = 150; // Mucha más nieve
+
+            for (let i = 0; i < particleCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                
+                const size = Math.random() * 5 + 2 + 'px';
+                const left = Math.random() * 100 + '%';
+                const duration = Math.random() * 3 + 4 + 's';
+                const delay = Math.random() * 5 + 's';
+                
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = left;
+                flake.style.animationDuration = duration;
+                flake.style.animationDelay = delay;
+                
+                container.appendChild(flake);
+            }
+        }
+
+        createSnow();
+
+        // LÓGICA DE MÚSICA
         var musica = document.getElementById('musica');
         var powerBtn = document.getElementById('powerBtn');
         var statusText = document.getElementById('status');
-
-        // Subimos el volumen al máximo nativo (1.0)
-        musica.volume = 1.0;
 
         function alternarMusica() {
             if (musica.paused) {
@@ -204,9 +251,7 @@
                     statusText.innerHTML = "SISTEMA: REPRODUCIENDO_ON";
                     statusText.style.color = "#00ff00";
                 }).catch(e => {
-                    // Si falla, es porque el navegador bloqueó el inicio automático o el nombre está mal
-                    statusText.innerHTML = "ERROR: VERIFICA EL NOMBRE DEL MP3";
-                    console.error("Fallo de audio:", e);
+                    statusText.innerHTML = "ERROR: VERIFICA EL AUDIO";
                 });
             } else {
                 musica.pause();
